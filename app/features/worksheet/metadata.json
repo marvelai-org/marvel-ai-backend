@@ -1,0 +1,39 @@
+{
+    "inputs": [
+        {
+            "label": "Topic or text",
+            "name": "topic",
+            "type": "text"
+        },
+        {
+            "label": "Grade level",
+            "name": "grade_level",
+            "type": "text"
+        },
+        {
+            "label": "Number of Worksheets",
+            "name": "num_worksheets",
+            "type": "number"
+        },
+        {
+            "label": "Number of Fill in the Blank Questions",
+            "name": "num_fill_in_blank",
+            "type": "number"
+        },
+        {
+            "label": "Number of Multiple Choice Questions",
+            "name": "num_multiple_choice",
+            "type": "number"
+        },
+        {
+            "label": "Number of Open-Ended Questions",
+            "name": "num_open_ended",
+            "type": "number"
+        },
+        {
+            "label": "Number of True or False Questions",
+            "name": "num_true_false",
+            "type": "number"
+        }
+    ]
+}

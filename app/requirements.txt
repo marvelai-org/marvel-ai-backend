@@ -15,4 +15,8 @@ pypdf
 fpdf
 youtube-transcript-api
 pytube
+unstructured
+python-docx
+python-pptx
+sentence-transformers
 python-dotenv
