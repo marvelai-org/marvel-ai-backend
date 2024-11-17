@@ -2,6 +2,7 @@ import json
 import os
 from app.services.logger import setup_logger
 from app.services.schemas import QuizzifyArgs
+from app.services.schemas import ConnectWithThemArgs
 from app.services.tool_registry import ToolFile
 from app.api.error_utilities import VideoTranscriptError, InputValidationError, ToolExecutorError
 from app.services.schemas import SyllabusGeneratorArgsModel
@@ -102,6 +103,8 @@ def validate_input_type(input_name: str, input_value: Any, expected_type: str):
         raise_type_error(input_name, input_value, "worksheet_generator_args")
     elif expected_type == 'syllabus_generator_args' and not isinstance(input_value, dict):
         raise_type_error(input_name, input_value, "syllabus_generator_args")
+    elif expected_type == 'connect_with_them_args' and not isinstance(input_value, dict):
+        raise_type_error(input_name, input_value, "connect_with_them_args")
     elif expected_type == 'file':
         validate_file_input(input_name, input_value)
 
@@ -141,6 +144,11 @@ def convert_syllabus_generator_args_to_pydantic(inputs: Dict[str, Any]) -> Dict[
         inputs['syllabus_generator_args'] = SyllabusGeneratorArgsModel(**inputs['syllabus_generator_args'])
     return inputs
 
+def convert_connect_with_them_args_to_pydantic(inputs: Dict[str, Any]) -> Dict[str, Any]:
+    if 'connect_with_them_args' in inputs:
+        inputs['connect_with_them_args'] = ConnectWithThemArgs(**inputs['connect_with_them_args'])
+    return inputs
+
 def finalize_inputs(input_data, validate_data: List[Dict[str, str]]) -> Dict[str, Any]:
     inputs = prepare_input_data(input_data)
     validate_inputs(inputs, validate_data)
@@ -148,6 +156,7 @@ def finalize_inputs(input_data, validate_data: List[Dict[str, str]]) -> Dict[str
     inputs = convert_quizzify_args_to_pydantic(inputs)
     inputs = convert_worksheet_generator_args_to_pydantic(inputs)
     inputs = convert_syllabus_generator_args_to_pydantic(inputs)
+    inputs = convert_connect_with_them_args_to_pydantic(inputs)
     return inputs
 
 def execute_tool(tool_id, request_inputs_dict):
