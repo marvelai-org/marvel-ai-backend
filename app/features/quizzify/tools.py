@@ -132,18 +132,22 @@ class QuizBuilder:
             if self.verbose:
                 logger.info(f"Generated response attempt {attempts + 1}: {response}")
 
-            response = transform_json_dict(response)
-            # Directly check if the response format is valid
-            if self.validate_response(response):
-                response["choices"] = self.format_choices(response["choices"])
-                generated_questions.append(response)
-                if self.verbose:
-                    logger.info(f"Valid question added: {response}")
-                    logger.info(f"Total generated questions: {len(generated_questions)}")
+            if(not 'properties' in response):
+                response = transform_json_dict(response)
+                # Directly check if the response format is valid
+                if self.validate_response(response):
+                    response["choices"] = self.format_choices(response["choices"])
+                    generated_questions.append(response)
+                    if self.verbose:
+                        logger.info(f"Valid question added: {response}")
+                        logger.info(f"Total generated questions: {len(generated_questions)}")
+                else:
+                    if self.verbose:
+                        logger.warning(f"Invalid response format. Attempt {attempts + 1} of {max_attempts}")
             else:
                 if self.verbose:
                     logger.warning(f"Invalid response format. Attempt {attempts + 1} of {max_attempts}")
-            
+
             # Move to the next attempt regardless of success to ensure progress
             attempts += 1
 
