@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from typing import Optional, List, Any
+from pydantic import BaseModel, Field
+from typing import Optional, List, Any, Literal
 from enum import Enum
 from app.services.tool_registry import BaseTool
 
@@ -89,3 +89,13 @@ class SyllabusGeneratorArgsModel(BaseModel):
     file_url: str
     file_type: str
     lang: Optional[str] = "en"
+
+class RubricGeneratorArgs(BaseModel):
+    standard: str = Field(..., min_length=1, max_length=255, description="the learning standard or objective")
+    point_scale: int = Field(..., description="Point scale for the rubric, must be between 1 and 10")
+    grade_level: Literal["pre-k", "kindergarten", "elementary", "middle", "high", "university", "professional"] = Field(..., description="Educational level to which the content is directed")
+    assignment_desc: str = Field(..., description="The assignment description")
+    additional_customization:  str = Field(..., description="Additional customization for the rubric")
+    file_type: str = Field(..., description="Type of file being handled, according to the defined enumeration")
+    file_url: str = Field(..., description="URL or path of the file to be processed that has the assignment description")
+    lang: Optional[str] = Field(..., description="Language in which the file or content is written")
